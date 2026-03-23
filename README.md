@@ -10,32 +10,24 @@ class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         # 初始化全局最大直径 ans，初始值为 0
         ans = 0
-        
         # 定义内部递归函数 dfs，用于计算以当前 node 为起点的最大链长（边的数量）
         def dfs(node: Optional[TreeNode]) -> int:
             # 递归终止条件：如果节点为空，返回 -1
             # 这样叶子节点计算链长时：-1 + 1 = 0，符合叶子节点自身边长为 0 的逻辑
             if node is None:
                 return -1  
-                
             # 递归计算左子树的最大链长，并加上当前节点到左子节点的 1 条边
             l_len = dfs(node.left) + 1  
-            
             # 递归计算右子树的最大链长，并加上当前节点到右子节点的 1 条边
             r_len = dfs(node.right) + 1  
-            
             # 声明使用外层函数的 ans 变量
             nonlocal ans
-            
             # 用“经过当前节点的两条链之和 (l_len + r_len)”来更新全局最大直径
             ans = max(ans, l_len + r_len)  
-            
             # 返回当前节点向下的单侧最大链长，供其父节点继续拼接使用
             return max(l_len, r_len)  
-            
         # 从根节点开始启动深度优先搜索
         dfs(root)
-        
         # 遍历结束后，ans 中存储的就是整棵树的最大直径，将其返回
         return ans
 ```
